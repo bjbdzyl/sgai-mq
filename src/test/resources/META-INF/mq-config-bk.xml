@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<baseconfig>
+    <rabbitmq username="admin" password="sgai001" ip="114.115.140.117" port="5672" virtualhost="//">
+        <queuelist>
+            <queue name="queue1"/><!--配置放到数据库里-->
+            <queue name="queue2"/>
+            <queue name="queuedemo"/>
+        </queuelist>
+    </rabbitmq>
+</baseconfig>
