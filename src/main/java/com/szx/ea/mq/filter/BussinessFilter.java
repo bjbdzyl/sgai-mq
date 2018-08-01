@@ -1,12 +1,10 @@
 package com.szx.ea.mq.filter;
 
-import com.szx.ea.mq.controller.MessageServicesManager;
+import com.szx.ea.mq.controller.MessageDispatcher;
 import com.szx.ea.mq.support.MessageContext;
-import com.szx.ea.mq.support.SzxMqContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,11 +17,11 @@ public class BussinessFilter extends ChainFilter {
     private static final Log logger = LogFactory.getLog(BussinessFilter.class);
 
     @Autowired
-    MessageServicesManager messageServicesManager;
+    MessageDispatcher messageDispatcher;
 
     @Override
     public void doFilter(MessageContext context) {
         logger.info("bussiness filter send msg to next");
-        messageServicesManager.doHandlerMsg(context);
+        messageDispatcher.doHandlerMsg(context);
     }
 }

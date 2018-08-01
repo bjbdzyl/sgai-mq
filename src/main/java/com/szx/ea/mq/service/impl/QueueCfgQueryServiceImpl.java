@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
  * @author ppliu
  * created in 2018/5/24 18:04
  */
-// TODO 开发代码插件或注释，直接生成固定的mapper、entity、QueryServiceInterface、QueryServiceImplement
 @Service
 public class QueueCfgQueryServiceImpl extends AbstractMapperService<QueueCfg> implements QueueCfgQueryService {
 }

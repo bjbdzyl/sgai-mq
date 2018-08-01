@@ -2,15 +2,19 @@ package com.szx.ea.mq.support;
 
 import com.szx.ea.mq.entity.QueueCfg;
 import com.szx.ea.mq.filter.QueueMainConsumer;
-import com.szx.ea.mq.service.MessageServicesManagerService;
+import com.szx.ea.mq.service.MessageHandlersMgr;
 import com.szx.ea.mq.service.QueueCfgQueryService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//@Service
 public class SzxMqContext{
+
+	private static final Log logger = LogFactory.getLog(SzxMqContext.class);
+
+	boolean started = false;
 
 	@Autowired
 	private QueueCfgQueryService queueCfgQueryService;
@@ -22,23 +26,26 @@ public class SzxMqContext{
 		return true;
 	}
 
-	@Autowired
-	private MessageServicesManagerService mcs;// = new MessageControllerService();
+//	@Autowired
+//	private MessageHandlersMgr mcs;// = new MessageControllerService();
 
 	@Autowired
-	private QueueMainConsumer queueMainConsumer;// 直接对接rabbitmq的queue，负责接收原始数据，然后再传递给logfiler等后续处理器
+	private QueueMainConsumer queueMainConsumer = new QueueMainConsumer();// 直接对接rabbitmq的queue，负责接收原始数据，然后再传递给logfiler等后续处理器
 
 	private RabbitMqAgent rabbitMqAgent = new RabbitMqAgent();
 
 	public boolean start(){
-		queueMainConsumer.init();
-		loadCfg();
-		rabbitMqAgent.start(queueCfgs, queueMainConsumer);
+		logger.info("szx ctx start");
+		if (!started) {
+			queueMainConsumer.init();
+			loadCfg();
+			rabbitMqAgent.start(queueCfgs, queueMainConsumer);
+		}
 		return true;
 	}
 
-	// TODO 交给MqConfiguration调用？
 	public boolean stop(){
+		logger.info("szx ctx stop");
 		rabbitMqAgent.stop();
 		return true;
 	}
@@ -46,9 +53,9 @@ public class SzxMqContext{
 	/**
 	 * @return mcs
 	 */
-	public MessageServicesManagerService getMcs() {
-		return mcs;
-	}
+	//public MessageHandlersMgr getMcs() {
+//		return mcs;
+//	}
 
 	/**
 	 * @return rabbitMqAgent

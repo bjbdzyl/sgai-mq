@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-// TODO  因为配置要放到数据库里，可能会出现多条服务器配置，所以这里的逻辑有点麻烦了。业务实际用时，会用多个rabbitmq服务器吗？
 public class RabbitMqAgent {
 
     private static final Log logger = LogFactory.getLog(RabbitMqAgent.class);
@@ -25,8 +24,11 @@ public class RabbitMqAgent {
 
     public boolean start(List<QueueCfg> mqConfiguration, Consumer mainConsumer) {
         for (QueueCfg cfg : mqConfiguration) {
+            //System.out.println("pwd " + cfg.getPwd());
+            //System.out.println("pwd enc " + cfg.enc("sgai001"));
             if (!alreadyConnect(cfg.getIp(), cfg.getPort())) {
-                MqConnection connecter = connect(cfg.getUserName(), cfg.getPwd(), cfg.getIp(), cfg.getPort());
+                //System.out.println("pwd decrypt " + cfg.decrypt(cfg.getPwd()));
+                MqConnection connecter = connect(cfg.getUserName(), cfg.decrypt(cfg.getPwd()), cfg.getIp(), cfg.getPort());
                 if (connecter != null) {
                     for (String queuename : cfg.getQueueList().split("\\|")) {
                         connecter.startListenQueue(queuename, mainConsumer);

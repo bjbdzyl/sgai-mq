@@ -1,7 +1,7 @@
 package com.szx.ea.mq.config;
 
-import javax.sql.DataSource;
-
+import com.szx.core.mybatis.mapper.MyBatisMapper;
+import com.szx.core.mybatis.mapper.mapperhelper.MapperHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -20,17 +20,15 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import com.szx.core.mybatis.mapper.MyBatisMapper;
-import com.szx.core.mybatis.mapper.mapperhelper.MapperHelper;
-
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableAspectJAutoProxy(proxyTargetClass = true)  
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @PropertySource(value = { "classpath:datasource.properties" })
-public class DaoAutoConfiguration implements EnvironmentAware{
+public class DaoAutoConfiguration implements EnvironmentAware {
 
     private Environment environment;
 
@@ -93,8 +91,8 @@ public class DaoAutoConfiguration implements EnvironmentAware{
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(){  
-        DataSourceTransactionManager manager = new DataSourceTransactionManager();  
+    public PlatformTransactionManager transactionManager(){
+        DataSourceTransactionManager manager = new DataSourceTransactionManager();
         manager.setDataSource(dataSource());  
         return manager;  
     }  

@@ -85,6 +85,3 @@ public class LogFilter extends ChainFilter {
         return messageLog;
     }
 }
-
-// TODO 精简autowired
-// TODO 进一步明确区哪些是controller，哪些是Service，规范和正确的使用注解，避免出现容器管理上的浪费和BUG
