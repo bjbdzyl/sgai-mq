@@ -1,9 +1,7 @@
 package com.szx.ea.mq.service.impl;
 
 import com.szx.core.service.AbstractMapperService;
-import com.szx.ea.mq.entity.MessageLog;
 import com.szx.ea.mq.entity.QueueCfg;
-import com.szx.ea.mq.service.MessageLogService;
 import com.szx.ea.mq.service.QueueCfgQueryService;
 import org.springframework.stereotype.Service;
 

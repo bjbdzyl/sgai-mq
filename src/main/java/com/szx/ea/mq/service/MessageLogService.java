@@ -9,5 +9,6 @@ import com.szx.ea.mq.entity.MessageLog;
  * created in 2018/5/24 18:03
  */
 public interface MessageLogService extends MapperService<MessageLog> {
-
+    void insertNewLog(MessageLog messageLog);
+    void stop();
 }

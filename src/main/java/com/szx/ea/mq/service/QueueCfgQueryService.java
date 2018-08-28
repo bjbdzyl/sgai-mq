@@ -2,7 +2,6 @@ package com.szx.ea.mq.service;
 
 
 import com.szx.core.service.MapperService;
-import com.szx.ea.mq.entity.MessageLog;
 import com.szx.ea.mq.entity.QueueCfg;
 
 /**

@@ -3,6 +3,8 @@ package com.szx.ea.mq.config;
 import com.szx.core.mybatis.mapper.MyBatisMapper;
 import com.szx.core.mybatis.mapper.mapperhelper.MapperHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.datasource.pooled.PooledDataSourceFactory;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -40,7 +42,8 @@ public class DaoAutoConfiguration implements EnvironmentAware {
     @Bean
     public SqlSessionFactory sqlSessionFactory() {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
+        //sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setDataSource(poolDataSource());
 
         try {
             ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -80,20 +83,33 @@ public class DaoAutoConfiguration implements EnvironmentAware {
         return mapperScannerConfigurer;
     }
 
+//    @Bean
+//    public DataSource dataSource() {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driver"));
+//        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
+//        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
+//        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+//
+//        return dataSource;
+//    }
+
     @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driver"));
+    public DataSource poolDataSource(){
+        PooledDataSource dataSource = (PooledDataSource) new PooledDataSourceFactory().getDataSource();// TODO 尝试C3P0
+        dataSource.setDriver(environment.getRequiredProperty("jdbc.driver"));
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+
         return dataSource;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager(){
         DataSourceTransactionManager manager = new DataSourceTransactionManager();
-        manager.setDataSource(dataSource());  
+        //manager.setDataSource(dataSource());
+        manager.setDataSource(poolDataSource());
         return manager;  
     }  
 }

@@ -8,7 +8,6 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import javax.persistence.*;
 import java.security.Key;
-import java.security.SecureRandom;
 
 /**
  * @author ppliu

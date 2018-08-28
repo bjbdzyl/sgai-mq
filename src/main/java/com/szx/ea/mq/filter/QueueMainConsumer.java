@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class QueueMainConsumer implements Consumer {
     private static final Log logger = LogFactory.getLog(QueueMainConsumer.class);
-    private ExecutorService threadPool = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS,new SynchronousQueue<Runnable>());
+    private ExecutorService threadPool = new ThreadPoolExecutor(0, 100, 60L, TimeUnit.SECONDS,new LinkedBlockingQueue<Runnable>()); // TODO 外层一次接完了，这里缓存到队列了，万一崩溃了，数据就没了。逻辑调整一下，一次接100个，即与队列大小相同
 
     @Autowired
     private LogFilter logFilter;
@@ -36,14 +36,14 @@ public class QueueMainConsumer implements Consumer {
 
     public void doFilter(MessageContext messageContext) {
         if (logFilter != null) {
-            threadPool.submit(() -> {
+            //threadPool.submit(() -> {
                 try {
                     logFilter.doFilter(messageContext);
                 } catch (Exception e) {
                     logger.error("fail to send msg to next");
                     e.printStackTrace();
                 }
-            });
+            //});
         }
     }
 

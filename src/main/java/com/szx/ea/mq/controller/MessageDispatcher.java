@@ -1,10 +1,5 @@
 package com.szx.ea.mq.controller;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import com.alibaba.fastjson.JSONObject;
 import com.szx.ea.mq.service.AbstractBaseMessageService;
 import com.szx.ea.mq.service.MessageHandlersMgr;
@@ -14,10 +9,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-// TODO EventBus? msg type 的数据类型怎么办？统一CommonMsg？
-// 若用event bus ，不便监控每个消息处理器的处理结果
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 @Controller
-public class MessageDispatcher { //TODO 和service倒过来依赖。
+public class MessageDispatcher {
 
     @Autowired
     MessageHandlersMgr messageHandlersMgr;

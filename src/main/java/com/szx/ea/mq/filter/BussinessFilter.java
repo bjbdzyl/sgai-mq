@@ -21,7 +21,7 @@ public class BussinessFilter extends ChainFilter {
 
     @Override
     public void doFilter(MessageContext context) {
-        logger.info("bussiness filter send msg to next");
+        //logger.info("bussiness filter send msg to next");
         messageDispatcher.doHandlerMsg(context);
     }
 }

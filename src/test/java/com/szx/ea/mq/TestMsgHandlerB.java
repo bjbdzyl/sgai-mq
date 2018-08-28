@@ -5,8 +5,8 @@ import com.szx.ea.mq.service.AbstractBaseMessageService;
 public class TestMsgHandlerB extends AbstractBaseMessageService {
     @Override
     public void receive(Object msgObj) {
-        TestMsgBean message = (TestMsgBean) msgObj;
-        System.out.println("msg hanlder b get new message " + message.getBody().getName() + message.getBody().getUser());
+        //TestMsgBean message = (TestMsgBean) msgObj;
+        //System.out.println("msg hanlder b get new message " + message.getBody().getName() + message.getBody().getUser());
     }
 
     @Override

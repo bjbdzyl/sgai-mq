@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szx.ea.mq.mapper.MessageLogMapper">
+    <insert id="batchInsert" parameterType="java.util.List">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into
+        ea_rabbit_message (id,message_content,status,exception_message,message_type,end_time, sender, receiver, receive_time)
+        values
+        <foreach collection="list" separator="," item="cus">
+            <!-- 组装values对象，因为这张表的主键为非自增主键，所以这里 (select uuid()) 用于生成id的值-->
+            (#{cus.id},#{cus.messageContent},#{cus.status},#{cus.exceptionMessage},#{cus.messageType},#{cus.endTime},#{cus.sender},#{cus.receiver},#{cus.receiveTime})
+        </foreach>
+    </insert>
+</mapper>

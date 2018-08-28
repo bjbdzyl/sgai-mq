@@ -4,7 +4,6 @@
 package com.szx.ea.mq.service;
 
 import com.szx.ea.mq.controller.MessageDispatcher;
-import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -14,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Administrator
  *
  */
-//@Controller
 public class MessageHandlersMgr {
 
 	public class MsgSrvList extends ArrayList<AbstractBaseMessageService> {}
